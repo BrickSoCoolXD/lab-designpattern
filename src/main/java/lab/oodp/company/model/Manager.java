@@ -12,6 +12,8 @@ import java.util.Objects;
  */
 public class Manager extends Employee {
 
+    List<Employee> employees = new ArrayList<Employee>();
+
 
     /**
      * Creates a new manager
@@ -34,7 +36,7 @@ public class Manager extends Employee {
      */
     public List<Employee> getEmployees() {
         // TODO remove return null below and complete this
-        return null;
+        return this.employees;
     }
 
     /**
@@ -47,6 +49,12 @@ public class Manager extends Employee {
      */
     public void addEmployee(Employee employee) {
         // TODO complete this
+        if (employee == null) throw new NullPointerException("employee cannot be null");
+        if (employee.getManager() != null) {
+            employee.getManager().removeEmployee(employee);
+        }
+        employee.setManager(this);
+        this.employees.add(employee);
     }
 
     /**
@@ -58,6 +66,11 @@ public class Manager extends Employee {
      */
     public void removeEmployee(Employee employee) {
         // TODO complete this
+        if (employee == null) throw new NullPointerException("employee cannot be null");
+        if (this.employees.contains(employee)) {
+            employee.setManager(null);
+            this.employees.remove(employee);
+        }
     }
 
     /**
@@ -95,8 +108,20 @@ public class Manager extends Employee {
      */
     public List<Employee> getAllEmployees() {
         // TODO complete this
-        return null;
+        List<Employee> allemployees = new ArrayList<Employee>();
+        allemployees.add(this);
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i) instanceof Manager) {
+                //this guy is a manager, he must have some employee under him
+                Manager manager = (Manager) employees.get(i);
+                allemployees.addAll(manager.getAllEmployees());
+            } else {
+                allemployees.add(employees.get(i));
+            }
+        }
+        return allemployees;
     }
+    
 
     /**
      * Returns a value indicating whether the given object is equal to this one. The given object is considered equal if

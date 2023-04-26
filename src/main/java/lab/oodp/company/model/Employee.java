@@ -1,6 +1,7 @@
 package lab.oodp.company.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
  */
 public class Employee {
 
+    private static final Manager Manager = null;
     private int id;
     private String name;
     private String email;
@@ -17,8 +19,15 @@ public class Employee {
     private int salary;
     //TODO: add manager field
 
+    private Manager manager;
+
     public Employee(int id, String name, String email, String jobTitle, int salary) {
         // TODO complete this
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.jobTitle = jobTitle;
+        this.salary = salary;
     }
 
     /**
@@ -28,7 +37,51 @@ public class Employee {
      */
     public Manager getManager() {
         // TODO complete this
-        return null;
+        return manager;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 
     /**
@@ -45,7 +98,14 @@ public class Employee {
     public List<Employee> getReportingChain() {
         // TODO complete this by calling getReportingChain of manager and add this employee as the last item in the list
         // NOTE you might want to check if manager is null first (meaning he/she is a top manager). If it is null, return only a list containing this employee
-        return null;
+        List<Employee> reportingchhain = new ArrayList<Employee>();
+        if (manager == null) {
+            reportingchhain.add(this);
+        } else {
+            reportingchhain.addAll(manager.getReportingChain());
+            reportingchhain.add(this);
+        }
+        return reportingchhain;
     }
 
    /**
@@ -73,5 +133,9 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, email, jobTitle, salary);
+    }
+
+    public Collection<? extends Employee> getAllEmployees() {
+        return null;
     }
 }

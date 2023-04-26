@@ -17,31 +17,43 @@ public class EmployeeTreeAdapter implements TreeModel {
     @Override
     public Object getRoot() {
         // TODO complete this
-        return null;
+        return root;
     }
 
     @Override
     public Object getChild(Object parent, int index) {
         // TODO complete this, return a child of given parent at specified index 
-        return null;
+        Manager manager = (Manager) parent;
+        return manager.getEmployees().get(index);
     }
 
     @Override
     public int getChildCount(Object parent) {
         // TODO complete this, return number of child for given parent
+        if(parent instanceof Manager) {
+            Manager manager = (Manager) parent;
+            return manager.getEmployees().size();
+        } else {
         return 0;
+        }
     }
 
     @Override
     public boolean isLeaf(Object node) {
         // TODO complete this, check if node is manager and does it has any child? 
-        return false;
+        if(node instanceof Manager) {
+            Manager manager = (Manager) node;
+            return manager.getEmployees().size() == 0;
+        } else {
+            return true;
+        }
     }
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
         // TODO complete this, loop through all children and return index at given child
-        return 0;
+        Manager manager = (Manager) parent;
+        return manager.getEmployees().indexOf(child);
     }
 
     /**
